@@ -3,7 +3,7 @@
  */
 
 import { pushTarget, popTarget } from './deps'
-import { isObject } from '../utils'
+import { isObject, parsePath } from '../utils'
 
 let uid = 0
 
@@ -27,9 +27,11 @@ export default class Watcher {
     if (typeof expOrFn === 'function') {
       this.getter = expOrFn
     } else {
-      // TODO: support parse
-      function none () {}
-      this.getter = none
+      const none = () => {}
+      this.getter = parsePath(expOrFn)
+      if (!this.getter) {
+        this.getter = none
+      }
     }
 
     this.value = this.lazy ? undefined : this.get()
