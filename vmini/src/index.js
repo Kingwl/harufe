@@ -17,7 +17,9 @@ export default class VMini {
 
   $watch (expOrFn, cb, options) {
     const vm = this
-    options = options || {}
+    options = options || {
+        deep: true
+    }
     const watcher = new Watcher(vm, expOrFn, cb, options)
 
     return function () {
