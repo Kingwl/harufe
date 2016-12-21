@@ -5,15 +5,13 @@
 import Dep from "./deps"
 import { def, isObject, hasOwn } from '../utils'
 
-export const obIdentity = '__bind__'
-
 export default class Observe {
   constructor (value) {
     this.value = value
     this.dep = new Dep()
     this.vmCount = 0
 
-    def(value, obIdentity, this)
+    def(value, '__bind__', this)
 
     if (Array.isArray(value)) {
       this.visitArray(value)
@@ -41,8 +39,8 @@ export function observe (value, isRoot) {
   }
 
   let ob = null
-  if (hasOwn(value, obIdentity) && value[obIdentity] instanceof Observe) {
-    ob = value[obIdentity]
+  if (hasOwn(value, '__bind__') && value.__bind__ instanceof Observe) {
+    ob = value.__bind__
   } else {
     ob = new Observe(value)
   }
@@ -104,7 +102,7 @@ export function defineReactive (obj, key, val) {
 function dependArray (value) {
   for (let e, i = 0, l = value.length; i < l; i++) {
     e = value[i]
-    e && e[obIdentity] && e[obIdentity].dep.depend()
+    e && e.__bind__ && e.__bind__.dep.depend()
     if (Array.isArray(e)) {
       dependArray(e)
     }
