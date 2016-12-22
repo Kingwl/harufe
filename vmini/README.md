@@ -4,8 +4,8 @@
 
 ### 主要内容
 
-- Observe √  
-- Computed  
-- Directive  
-- Event  
-- Vdom  
+- [x] Observe
+- [ ] Computed  
+- [ ] Directive  
+- [ ] Event  
+- [ ] Vdom  
