@@ -4,13 +4,21 @@
 
 import InitVM from './init'
 import Watcher from './observer/watcher'
+import Directive from './directives/directive'
 
 export default class VMini {
   constructor (options = {}) {
-    const {el, data, methods, computed, watch} = options
+    const {el, data, methods, template, computed, watch} = options
 
-    // vm.$el = document.getElementById(el)
     this.$options = options
+    this.$el = document.querySelector(el)
+    this.$template = template
+
+    this._directives = []
+
+    if (el) {
+      this.$mount(el)
+    }
 
     InitVM(this)
   }
@@ -25,5 +33,25 @@ export default class VMini {
     return function () {
       watcher.teardown()
     }
+  }
+
+  $mount (el) {
+    if (this.$el) {
+      throw new Error('vm is already mounted')
+    }
+
+    this.$el = document.querySelector(el)
+
+    if (this.$el && this.$frag) {
+      this.$el.appendChild(this.$frag)
+    }
+
+    return this
+  }
+
+  _bindDir (descriptor, node, host, scope, frag) {
+    this._directives.push(
+      new Directive(descriptor, this, node, host, scope, frag)
+    )
   }
 }

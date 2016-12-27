@@ -29,3 +29,20 @@ export function parsePath (path) {
     }
   }
 }
+
+export function extend (desc, src) {
+  const keys = Object.keys(src)
+  for (let i = 0, l = keys.length; i < l; ++i) {
+    desc[keys[i]] = src[keys[i]]
+  }
+  return desc
+}
+
+export function toUpper (_, c) {
+  return c ? c.toUpperCase() : ''
+}
+
+var camelizeRE = /-(\w)/g
+export function camelize (str) {
+  return str.replace(camelizeRE, toUpper)
+}

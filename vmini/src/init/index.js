@@ -3,7 +3,9 @@
  */
 
 import { initData } from './initData'
+import { initTemplate } from './initTemplate'
 
 export default function MixinVm (vm) {
   initData(vm)
+  initTemplate(vm)
 }

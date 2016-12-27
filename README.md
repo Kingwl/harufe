@@ -4,7 +4,8 @@
 
 ####可用系列
 
-- Medivh (名字暂定): 一个SPA的博客 
+- Medivh (名字暂定): 一个SPA的博客  
+- Tanmu: 一个绘制弹(tan)幕的工具  
 
 ####轮子系列  
 - Vdom： 一个VirtualDom  

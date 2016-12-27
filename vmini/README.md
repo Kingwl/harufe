@@ -6,8 +6,10 @@
 
 - [x] Observe
 - [ ] Computed  
-- [ ] Directive  
+- [x] Directive  
 - [ ] Event  
 
 ### Update
-~~Vdom~~ : Vue2(Vdom与Directive结合紧密 jsx和template成迷)读不懂 改为学习Vue1.0🌚
+- ~~Vdom~~ : Vue2(Vdom与Directive结合紧密 jsx和template成迷)读不懂 改为学习Vue1.0🌚
+- directives : 完成directives的整体结构和v-bind
+

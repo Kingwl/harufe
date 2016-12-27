@@ -3,16 +3,17 @@
  */
 
 import { pushTarget, popTarget } from './deps'
-import { isObject, parsePath } from '../utils'
+import { isObject, extend } from '../utils'
+import { parseExpression } from '../parsers'
 
 let uid = 0
+const none = () => {}
 
 export default class Watcher {
   constructor (vm, expOrFn, cb, options) {
-    const { lazy, sync, deep } = options
-    this.lazy = !!lazy
-    this.sync = !!sync
-    this.deep = !!deep
+    if (options) {
+      extend(this, options)
+    }
 
     this.id = ++uid
     this.vm = vm
@@ -27,27 +28,34 @@ export default class Watcher {
     if (typeof expOrFn === 'function') {
       this.getter = expOrFn
     } else {
-      const none = () => {}
-      this.getter = parsePath(expOrFn)
-      if (!this.getter) {
-        this.getter = none
-      }
+      const res = parseExpression(expOrFn)
+      this.getter = res.get || none
     }
 
     this.value = this.lazy ? undefined : this.get()
   }
 
-  get () {
+  beforeGet () {
     pushTarget(this)
-    const value = this.getter.call(this.vm, this.vm)
-    popTarget()
-    this.clearDeeps()
+  }
+
+  get () {
+    this.beforeGet()
+
+    const scope = this.scope || this.vm
+    const value = this.getter.call(scope, scope)
 
     if (this.deep) {
       traverse(value)
     }
 
+    this.afterGet()
     return value
+  }
+
+  afterGet () {
+    this.clearDeeps()
+    popTarget()
   }
 
   addDep (dep) {
