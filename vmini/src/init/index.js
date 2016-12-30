@@ -4,8 +4,10 @@
 
 import { initData } from './initData'
 import { initTemplate } from './initTemplate'
+import { initOptions } from './initOptions'
 
-export default function MixinVm (vm) {
+export default function initVm (vm) {
+  initOptions(vm)
   initData(vm)
   initTemplate(vm)
 }

@@ -12,15 +12,12 @@ export default class VMini {
 
     this.$options = options
     this.$el = document.querySelector(el)
-    this.$template = template
 
     this._directives = []
 
     if (el) {
       this.$mount(el)
     }
-
-    InitVM(this)
   }
 
   $watch (expOrFn, cb, options) {
@@ -45,6 +42,8 @@ export default class VMini {
     if (this.$el && this.$frag) {
       this.$el.appendChild(this.$frag)
     }
+
+    InitVM(this)
 
     return this
   }

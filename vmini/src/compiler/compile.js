@@ -32,9 +32,11 @@ export function linkAndCapture(linker, vm) {
 }
 
 export function makeUnlinkFn (vm, dirs) {
-  return function () {
+  function unlink () {
     teardownDirs(vm, dirs)
   }
+  unlink.dirs = dirs
+  return unlink
 }
 
 function makeNodeLinkFn (dirs) {
@@ -89,14 +91,14 @@ export function compile(el, options) {
     ? compileNodeList(el.childNodes, options)
     : null
 
-  return function (vm, el, scope, frag) {
+  return function (vm, el, host,  scope, frag) {
     const dirs = linkAndCapture(function () {
       const children = el.childNodes
-      if (dire) dire(vm, el, scope, frag)
-      if (childDire) childDire(vm, children, scope, frag)
+      if (dire) dire(vm, host, el, scope, frag)
+      if (childDire) childDire(vm, children, host, scope, frag)
     }, vm)
 
-    return makeUnlinkFn(dirs)
+    return makeUnlinkFn(vm, dirs)
   }
 }
 
@@ -104,7 +106,7 @@ export function compileNodeList(nodeList, options) {
   const linkFns = []
   for (let i = 0, l = nodeList.length;  i < l; ++i) {
     const node = nodeList[i]
-    const nodeLinkFn = compileNode(node)
+    const nodeLinkFn = compileNode(node, options)
     const childLinkFn = !(nodeLinkFn && nodeLinkFn.terminal) && node.tagName !== 'SCRIPT' && node.hasChildNodes()
     ? compileNodeList(node.childNodes, options)
       : null
@@ -141,7 +143,7 @@ export function compileElement(el, options) {
 }
 
 export function checkTerminalDirectives(el, attrs, options) {
-  let temoDef = null
+  let tempDef = null
   let rawName = null
   let value = null
   let dirName = null
@@ -154,8 +156,8 @@ export function checkTerminalDirectives(el, attrs, options) {
     if (matched) {
       const def = resolveAsset(options, 'directives', matched[1])
       if (def && def.terminal) {
-        if (!temoDef || (def.priority || DEFAULT_TERMINAL_PRIORITY) > def.priority) {
-          temoDef = def
+        if (!tempDef || (def.priority || DEFAULT_TERMINAL_PRIORITY) > tempDef.priority) {
+          tempDef = def
           rawName = attr.name
           value = attr.value
           dirName = matched[1]
@@ -165,7 +167,7 @@ export function checkTerminalDirectives(el, attrs, options) {
     }
   }
 
-  if (temoDef) {
+  if (tempDef) {
     return makeTerminalNodeLinkFn(el, dirName, value, options, tempDef, rawName, arg)
   }
 }

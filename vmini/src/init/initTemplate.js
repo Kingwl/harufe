@@ -3,23 +3,22 @@
  */
 
 import { compile } from '../compiler'
-import bind from '../directives/bind'
+import { Factory } from '../fragment'
+import { replace } from '../utils'
 
 export function initTemplate (vm) {
-  const template = vm.$template
+  const template = vm.$options.template
+  // vm.$factory = new Factory(vm, vm.$el)
   const templateFrag = document.createDocumentFragment()
 
   let root = document.createElement('div')
   root.innerHTML = template
   templateFrag.appendChild(root)
 
-  const options = {
-    directives: {
-      bind: bind
-    }
-  }
-  const link = compile(root, options)
-  const unlink = link(vm, root, vm, null, templateFrag)
+  const link = compile(root, vm.$options)
+  const unlink = link(vm, root, vm, null)
+
+  replace(vm.$el, root)
 
   vm.$frag = templateFrag
 }

@@ -12,9 +12,10 @@ const vm = new VMini({
       , d: [{
         e: 233
       }]
+      , pred: false
     }
   },
-  template: '<div id="fuck" :class-name="a">123</div>'
+  template: '<div id="fuck" :class-name="a"><div v-if="pred" :class-name="b">123</div></div>'
 }).$mount('#app')
 
 window.$vm = vm
