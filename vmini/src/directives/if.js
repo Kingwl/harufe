@@ -6,7 +6,7 @@ import { createAnchor, replace } from '../utils'
 import { Factory } from '../fragment'
 
 export default  {
-  priority: 850
+  priority: 2100
   , terminal: true
   , bind () {
     const el = this.el

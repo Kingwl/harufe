@@ -13,6 +13,7 @@ export default class VMini {
     this.$options = options
     this.$el = document.querySelector(el)
 
+    this._watcher = []
     this._directives = []
 
     if (el) {

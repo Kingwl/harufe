@@ -33,6 +33,13 @@ export default class Observe {
   }
 }
 
+let shouldConvert = true
+export function withoutConversion (fn) {
+  shouldConvert = false
+  fn()
+  shouldConvert = true
+}
+
 export function observe (value, isRoot) {
   if(!isObject(value)) {
     return
@@ -41,7 +48,7 @@ export function observe (value, isRoot) {
   let ob = null
   if (hasOwn(value, '__bind__') && value.__bind__ instanceof Observe) {
     ob = value.__bind__
-  } else {
+  } else if (shouldConvert) {
     ob = new Observe(value)
   }
 

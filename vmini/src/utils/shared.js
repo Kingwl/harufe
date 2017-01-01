@@ -12,7 +12,7 @@ export function remove (arr, obj) {
 }
 
 export function isObject (obj) {
-  return obj instanceof Object
+  return obj !== null && typeof obj === 'object'
 }
 
 export function hasOwn (obj, prop) {

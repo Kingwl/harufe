@@ -32,6 +32,7 @@ export default class Watcher {
       this.getter = res.get || none
     }
 
+    vm._watcher.push(this)
     this.value = this.lazy ? undefined : this.get()
   }
 
