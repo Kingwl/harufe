@@ -3,7 +3,9 @@
  */
 
 import vBind from './bind'
+import text from './text'
 
 export const publicDirectives = {
   bind: vBind
+  , text
 }

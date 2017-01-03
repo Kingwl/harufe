@@ -2,11 +2,9 @@
  * Created by kingwl on 16/12/22.
  */
 
-
 import { publicDirectives }  from '../directives'
-import { parseDirective } from '../parsers'
-import Bind from '../directives/bind'
-import { resolveAsset } from '../utils'
+import { parseDirective, parseText } from '../parsers'
+import { resolveAsset, removeNode, replace } from '../utils'
 
 const ElementNodeType = 1
 const TextNodeType = 3
@@ -221,8 +219,66 @@ export function compileDirectives(attrs, options) {
   }
 }
 
+function removeText (vm, node) {
+  removeNode(node)
+}
+
+function processTextToken (token, options) {
+  const el = document.createTextNode(' ')
+
+  if (token.descriptor) {
+    return
+  }
+  const parsed = parseDirective(token.value)
+  const type = 'text'
+  token.descriptor = {
+    name: type
+    , def: publicDirectives[type]
+    , expression: parsed.expression
+  }
+  return el
+}
+
+function makeTextNodeLinkFn(tokens, frag) {
+  return function (vm, el, host, scope) {
+    const fragClone = frag.cloneNode(true)
+    const childNodes = Array.from(fragClone.childNodes)
+    for (let i = 0, l = tokens.length; i < l; ++i) {
+      const token = tokens[i]
+      if (token.tag) {
+        const node = childNodes[i]
+        vm._bindDir(token.descriptor, node, host, scope)
+      }
+    }
+    replace(el, fragClone)
+  }
+}
+
 export function compileTextElement(node, options) {
-  // TODO support text element
+  if (node._skip) {
+    return removeText
+  }
+
+  const tokens = parseText (node.wholeText)
+  if (!tokens) {
+    return null
+  }
+
+  let next = node.nextSibling
+  while (next && next.nodeType === TextNodeType) {
+    next._skip = true
+    next = next.nextSibling
+  }
+
+  const frag = document.createDocumentFragment()
+  for (let i = 0, l = tokens.length; i < l; ++i) {
+    const token = tokens[i]
+    const el = token.tag
+      ? processTextToken(token, options)
+      : document.createTextNode(token.value)
+    frag.appendChild(el)
+  }
+  return makeTextNodeLinkFn(tokens, frag)
 }
 
 function teardownDirs (dirs) {

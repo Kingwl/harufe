@@ -4,3 +4,4 @@
 
 export * from './directive'
 export * from './expression'
+export * from './text'

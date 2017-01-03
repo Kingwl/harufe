@@ -30,8 +30,10 @@ export default class {
     const name = this.name
     const descriptor = this.descriptor
 
-    const attr = descriptor.attr || (`v-${name}`)
-    this.el.removeAttribute(attr)
+    if (this.el && this.el.removeAttribute) {
+      const attr = descriptor.attr || (`v-${name}`)
+      this.el.removeAttribute(attr)
+    }
 
     const def = descriptor.def
     if (typeof def === 'function') {
