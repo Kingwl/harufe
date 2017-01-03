@@ -12,6 +12,7 @@
 - Promise: 一个尽可能符合Promise A+ 标准的Promise实现  
 - [VMini](https://github.com/Kingwl/harufe/tree/master/vmini): 一个简化版的Vue, 学习Vue的设计  
 - Class: 模仿ES6的class语法  
+- VRouter: 简化版的router   
 
 ####代码风格
 
