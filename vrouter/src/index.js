@@ -1,12 +1,6 @@
 import { compileRegExp } from './utils/reg'
-
-function zip (a, b) {
-  const ret = []
-  for (let i = 0, l =  Math.max(a.length, b.length); i < l; ++i) {
-    ret.push([a[i], b[i]])
-  }
-  return ret
-}
+import { resolveLocation } from './utils/location'
+import { fillParams } from './utils/params'
 
 export default class Router {
   constructor () {
@@ -30,15 +24,15 @@ export default class Router {
     }
   }
 
-  notify (path) {
+  match (path) {
     const keys = Object.keys(this.cache)
+    const location = resolveLocation(path)
     let matched = null
     for (let i = 0, l = keys.length; i < l; ++i) {
       const cached = this.cache[keys[i]]
-      if (matched = cached.reg.exec(path)) {
-        const params = {}
-        zip(cached.keys, matched.slice(1)).forEach(([k, v]) => params[k.name] = v)
-        cached.callbacks.forEach(x => x.call(null, {params}))
+      if (matched = cached.reg.exec(location.path)) {
+        const params = fillParams(cached.keys, matched.slice(1))
+        cached.callbacks.forEach(x => x.call(null, Object.assign({}, location, {params})))
         return
       }
     }
