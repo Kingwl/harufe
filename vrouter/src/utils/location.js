@@ -16,5 +16,6 @@ export function resolveLocation (raw, current) {
     path
     , query
     , hash
+    , raw
   }
 }

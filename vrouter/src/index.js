@@ -2,13 +2,21 @@ import { compileRegExp } from './utils/reg'
 import { resolveLocation } from './utils/location'
 import { fillParams } from './utils/params'
 
+import Html5History from './history/Html5History'
+
 export default class Router {
   constructor () {
     this.cache = {}
   }
 
   init (history) {
-    this.history = history
+    if (history === 'history') {
+      this.history = new Html5History(this)
+    } else {
+      throw new Error('unknow history')
+    }
+
+    this.history.listen()
   }
 
   route (path, cb) {
@@ -31,41 +39,33 @@ export default class Router {
     for (let i = 0, l = keys.length; i < l; ++i) {
       const cached = this.cache[keys[i]]
       if (matched = cached.reg.exec(location.path)) {
+
         const params = fillParams(cached.keys, matched.slice(1))
-        cached.callbacks.forEach(x => x.call(null, Object.assign({}, location, {params})))
-        return
+        const info = Object.assign({}, location, {params})
+        const cb = (p) => cached.callbacks.forEach(x => x && x (p))
+
+        return {info, cb}
       }
     }
   }
 
-  listen () {
-    this.history.listen(path => {
-      this.notify(path)
-    })
-  }
-
   push (location) {
-
-  }
-
-  pop () {
-
+    this.history.push(location)
   }
 
   replace (location) {
-
+    this.history.replace(location)
   }
 
   go (n) {
-
+    this.history.go(n)
   }
 
   back (n = 1) {
-    go(n)
+    this.go(n)
   }
 
   forward (n = 1) {
-    go(n)
+    this.go(n)
   }
-
 }

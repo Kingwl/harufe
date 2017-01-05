@@ -12,8 +12,8 @@
 - Promise: 一个尽可能符合Promise A+ 标准的Promise实现  
 - [VMini](https://github.com/Kingwl/harufe/tree/master/vmini): 一个简化版的Vue, 学习Vue的设计  
 - Class: 模仿ES6的class语法  
-- VRouter: 简化版的router   
-
+- [VRouter](https://github.com/Kingwl/harufe/tree/master/vrouter): 简化版的router  
+- VList: 支持virtualized的ListView
 ####代码风格
 
 - 遵循[standard](https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style) 可以过lint即可 (尚未添加)

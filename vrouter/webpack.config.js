@@ -1,4 +1,5 @@
 var webpack = require('webpack')
+var HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: './tests/index.js',
@@ -14,5 +15,9 @@ module.exports = {
       }
     ]
   },
+  plugins: [new HtmlWebpackPlugin({
+    filename: 'index.html'
+    , template: 'static/index.html'
+  })],
   devtool: 'source-map'
 }
