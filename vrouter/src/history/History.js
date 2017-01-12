@@ -7,14 +7,6 @@ export default class History {
     this.router = router
   }
 
-  pushState () {
-
-  }
-
-  replaceState () {
-
-  }
-
   listen () {
 
   }
@@ -24,23 +16,19 @@ export default class History {
   }
 
   push (location) {
-    this.transitionTo(location.raw, () => {
-      this.pushState(location.raw)
-    })
+
   }
 
   replace (location) {
-    this.transitionTo(location.raw, () => {
-      this.replaceState(location.raw)
-    })
+
   }
 
   transitionTo (location, after) {
     const route = this.router.match(location)
     if (route) {
       const {info, cb} = route
-      after()
-      cb(info)
+      after && after(info)
+      cb && cb(info)
     }
   }
 }

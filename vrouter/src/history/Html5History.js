@@ -10,23 +10,20 @@ export default class Html5History extends History {
   }
 
   listen () {
-    window.addEventListener('popstate', e => {
-      this.transitionTo(this.getLocation(), () => {
-      })
-    })
+    window.addEventListener('popstate', e => this.onHistoryChange(e))
+    window.addEventListener('load', e => this.onHistoryChange(e))
+  }
 
-    window.addEventListener('load', e => {
-      this.transitionTo(this.getLocation(), () => {
-      })
+  push (location) {
+    this.transitionTo(location.raw, () => {
+      pushState(location.raw)
     })
   }
 
-  pushState (url) {
-    window.history.pushState({ foo: "bar" }, '', url)
-  }
-
-  replaceState (url) {
-    window.history.replaceState({ foo: "bar" }, '', url)
+  replace (location) {
+    this.transitionTo(location.raw, () => {
+      replaceState(location.raw)
+    })
   }
 
   getLocation (base) {
@@ -37,4 +34,17 @@ export default class Html5History extends History {
 
     return (path || '/') + window.location.search + window.location.hash
   }
+
+  onHistoryChange (e) {
+    this.transitionTo(this.getLocation(), route => {
+    })
+  }
+}
+
+export function pushState (url) {
+  window.history.pushState({ foo: "bar" }, '', url)
+}
+
+export function replaceState (url) {
+  window.history.replaceState({ foo: "bar" }, '', url)
 }

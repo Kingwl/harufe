@@ -23,6 +23,6 @@ router.route('*', param => {
   app.innerText = '404 not found'
 })
 
-router.init('history')
+router.init('hash')
 
 window.router = router

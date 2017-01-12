@@ -3,6 +3,7 @@ import { resolveLocation } from './utils/location'
 import { fillParams } from './utils/params'
 
 import Html5History from './history/Html5History'
+import HashHistory from './history/HashHistory'
 
 export default class Router {
   constructor () {
@@ -12,6 +13,8 @@ export default class Router {
   init (history) {
     if (history === 'history') {
       this.history = new Html5History(this)
+    } if (history === 'hash') {
+      this.history = new HashHistory(this)
     } else {
       throw new Error('unknow history')
     }
