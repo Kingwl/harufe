@@ -36,6 +36,10 @@ export function resolvePath (path, base) {
 
   const stack = base.split('/')
 
+  if (!stack[stack.length - 1]) {
+    stack.pop()
+  }
+
   const separatorRE = /^\//
   const segments = path.replace(separatorRE, '').split('/')
   for(let i = 0, l = segments.length; i < l; ++i) {
@@ -49,8 +53,11 @@ export function resolvePath (path, base) {
     }
   }
 
-  return stack.join('/')
+  if (stack[0] != '') {
+    stack.unshift('')
+  }
 
+  return stack.join('/')
 }
 
 export function resolveHash (hash) {
