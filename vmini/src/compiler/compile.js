@@ -11,6 +11,7 @@ const TextNodeType = 3
 
 const bindRE = /^v-bind:|^:/
 const dirAttrRE = /^v-([^:]+)(?:$|:(.*)$)/
+const modifierRE = /\.[^\.]+/g
 
 const DEFAULT_PRIORITY = 1000
 const DEFAULT_TERMINAL_PRIORITY = 2000
@@ -45,7 +46,7 @@ function makeNodeLinkFn (dirs) {
   }
 }
 
-function makeTerminalNodeLinkFn(el, dirName, value, options, def, rawName, arg) {
+function makeTerminalNodeLinkFn(el, dirName, value, options, def, rawName, arg, modifiers) {
   const parsed = parseDirective(value)
   const descriptor = {
     name: dirName
@@ -53,6 +54,7 @@ function makeTerminalNodeLinkFn(el, dirName, value, options, def, rawName, arg) 
     , expression: parsed.expression
     , raw: value
     , attr: rawName
+    , modifiers
     , def
   }
 
@@ -146,10 +148,12 @@ export function checkTerminalDirectives(el, attrs, options) {
   let value = null
   let dirName = null
   let arg = null
+  let modifiers = null
 
   for (let i = 0, l = attrs.length; i < l; ++i) {
     const attr = attrs[i]
-    const name = attr.name
+    modifiers = parseModifiers(attr.name)
+    const name = attr.name.replace(modifierRE, '')
     const matched = name.match(dirAttrRE)
     if (matched) {
       const def = resolveAsset(options, 'directives', matched[1])
@@ -166,7 +170,7 @@ export function checkTerminalDirectives(el, attrs, options) {
   }
 
   if (tempDef) {
-    return makeTerminalNodeLinkFn(el, dirName, value, options, tempDef, rawName, arg)
+    return makeTerminalNodeLinkFn(el, dirName, value, options, tempDef, rawName, arg, modifiers)
   }
 }
 
@@ -179,11 +183,15 @@ export function compileDirectives(attrs, options) {
   let arg = null
   let dirName = null
   let matched = null
+  let modifiers = null
 
   for (let i = 0, l = attrs.length; i < l; ++i) {
     const attr = attrs[i]
     name = rawName = attr.name
     arg = value = rawValue = attr.value
+
+    modifiers = parseModifiers(name)
+    name = name.replace(modifierRE, '')
 
     if (bindRE.test(name)) {
       dirName = name.replace(bindRE, '')
@@ -210,6 +218,7 @@ export function compileDirectives(attrs, options) {
       , raw: rawValue
       , def
       , arg
+      , modifiers
       , expression: parsed.expression
     })
   }
@@ -217,6 +226,18 @@ export function compileDirectives(attrs, options) {
   if (dirs.length) {
     return makeNodeLinkFn(dirs)
   }
+}
+
+function parseModifiers (name) {
+  const res = Object.create(null)
+  const match = name.match(modifierRE)
+  if (match) {
+    let i = match.length
+    while (i--) {
+      res[match[i].slice(1)] = true
+    }
+  }
+  return res
 }
 
 function removeText (vm, node) {

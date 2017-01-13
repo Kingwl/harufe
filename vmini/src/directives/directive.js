@@ -15,6 +15,7 @@ export default class {
     this.name = descriptor.name
     this.expression = descriptor.expression
     this.arg = descriptor.arg
+    this.modifiers = descriptor.modifiers
 
     this._host = host
     this._scope = scope
@@ -47,7 +48,7 @@ export default class {
     }
     this._bound = true
 
-    if (this.expression && this.update) {
+    if ((this.expression || this.modifiers) && this.update) {
       const dir = this
       if (this.update) {
         this._update = function (val, oldVal) {
