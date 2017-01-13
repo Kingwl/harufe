@@ -10,6 +10,7 @@ const ElementNodeType = 1
 const TextNodeType = 3
 
 const bindRE = /^v-bind:|^:/
+const onRE = /^v-on:|^@/
 const dirAttrRE = /^v-([^:]+)(?:$|:(.*)$)/
 const modifierRE = /\.[^\.]+/g
 
@@ -197,7 +198,9 @@ export function compileDirectives(attrs, options) {
       dirName = name.replace(bindRE, '')
       arg = dirName
       pushDir('bind', publicDirectives.bind)
-
+    } else if (onRE.test(name)) {
+      arg = name.replace(onRE, '')
+      pushDir('on', publicDirectives.on)
     } else if (matched = name.match(dirAttrRE)) {
       dirName = matched[1]
       arg = matched[2]

@@ -76,3 +76,11 @@ export function removeNodeRange (start, end, vm, frag, cb) {
     }
   })
 }
+
+export function on (el, event, cb, useCapture) {
+  el.addEventListener(event, cb, useCapture)
+}
+
+export function off (el, event, cb) {
+  el.removeEventListener(event, cb)
+}
