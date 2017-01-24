@@ -102,5 +102,13 @@ export const defaults = {
       list = [list]
     }
     return [item, ...list]
+  },
+  'set!': function (key, val) {
+    if (key in this.scope) {
+      const old = this.scope[key]
+      this.scope[key] = this.eval(val)
+      return old
+    }
+    throw new Error('unexpected var')
   }
 }

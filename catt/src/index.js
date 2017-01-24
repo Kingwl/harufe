@@ -10,8 +10,9 @@ import {
 } from './core'
 
 import { defaults } from './env'
+import { ext } from './ext'
 
-const rootScope = new Scope(defaults)
+const rootScope = new Scope(Object.assign({}, defaults, ext))
 
 let t = new Scope({}, rootScope)
 
