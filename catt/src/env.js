@@ -85,7 +85,7 @@ export const defaults = {
     return null
   },
   list: function (...args) {
-    return [...args.map(arg => this.eval(arg)), null]
+    return [...args.map(arg => this.eval(arg))]
   },
   car: function (list) {
     return this.eval(list)[0]
@@ -95,5 +95,12 @@ export const defaults = {
   },
   prepend: function (value, list) {
     return [this.eval(value), ...this.eval(list)]
+  },
+  cons: function (item, list) {
+    list = this.eval(list)
+    if (!Array.isArray(list)) {
+      list = [list]
+    }
+    return [item, ...list]
   }
 }

@@ -8,7 +8,7 @@ export const booleanType = Symbol('bool_t')
 const nullRE = /^null$/
 const numberRE = /^\-?(\d+|\d+\.\d*|\d*\.\d+)$/
 const boolRE = /^(true|false)$/
-const varRE = /^[a-zA-Z_\+\-\*/<>=\[\]]+[0-9a-zA-Z_\+\-\*/<>=\[\]]*$/
+const varRE = /^[a-zA-Z_\+\-\*/<>=\[\]]+[0-9a-zA-Z_\+\-\*/<>=\[\]/?]*$/
 const strRE = /^"(\\"|[^"])*"$/
 const exprRE = /^\(.+\)$/
 
