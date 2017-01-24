@@ -1,0 +1,18 @@
+<html>
+  <body>
+    <div>
+      <input id="ipt"/>
+      <button id="run">run</button>
+      <div id="val"></div>
+    </div>
+  </body>
+  <script src='./app.js'></script>
+  <script>
+    var btn = document.getElementById('run')
+    var ipt = document.getElementById('ipt')
+    var val = document.getElementById('val')
+    btn.addEventListener('click', function () {
+      val.innerText = repl(ipt.value)
+    })
+  </script>
+</html>
