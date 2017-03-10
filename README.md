@@ -9,7 +9,7 @@
 
 ####轮子系列  
 - Vdom： 一个VirtualDom  
-- Promise: 一个尽可能符合Promise A+ 标准的Promise实现  
+- [Promise](https://github.com/Kingwl/harufe/tree/master/ppromise): 一个尽可能符合Promise A+ 标准的Promise实现  
 - [VMini](https://github.com/Kingwl/harufe/tree/master/vmini): 一个简化版的Vue, 学习Vue的设计  
 - [VRouter](https://github.com/Kingwl/harufe/tree/master/vrouter): 简化版的router  
 - [VListView](https://github.com/Kingwl/harufe/tree/master/vlistview): 支持virtualized的ListView  

@@ -1,0 +1,14 @@
+{
+  "name": "ppromise",
+  "version": "1.0.0",
+  "description": "",
+  "main": "promise.js",
+  "scripts": {
+    "test": "promises-aplus-tests test.js"
+  },
+  "author": "Kingwl",
+  "license": "MIT",
+  "devDependencies": {
+    "promises-aplus-tests": "^2.1.2"
+  }
+}
