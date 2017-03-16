@@ -1,26 +1,26 @@
-#HaruFE  
+# HaruFE  
 
-###HaruFE是一个用来深入学习前端的项目,它预计包括如下内容  
+### HaruFE是一个用来深入学习前端的项目,它预计包括如下内容  
 
-####可用系列
+#### 可用系列
 
 - Medivh (名字暂定): 一个SPA的博客  
 - Tanmu: 一个绘制弹(tan)幕的工具  
 
-####轮子系列  
+#### 轮子系列  
 - Vdom： 一个VirtualDom  
 - [Promise](https://github.com/Kingwl/harufe/tree/master/ppromise): 一个尽可能符合Promise A+ 标准的Promise实现  
 - [VMini](https://github.com/Kingwl/harufe/tree/master/vmini): 一个简化版的Vue, 学习Vue的设计  
 - [VRouter](https://github.com/Kingwl/harufe/tree/master/vrouter): 简化版的router  
 - [VListView](https://github.com/Kingwl/harufe/tree/master/vlistview): 支持virtualized的ListView  
 - [Catt](https://github.com/Kingwl/harufe/tree/master/catt): 一个简单的scheme某方言解释器  
-####代码风格
+#### 代码风格
 
 - 遵循[standard](https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style) 可以过lint即可 (尚未添加)
 - 一个commit只做一件事, 保证每个commit都是可用的    
 - 对于一些小修改 可以合并的请rebase   
 
-####结对编程
+#### 结对编程
 1. 请将本项目fork到自己的仓库中  
 2. 进行修改并且push到自己仓库  
 3. 发送PR, 并且@人review  
